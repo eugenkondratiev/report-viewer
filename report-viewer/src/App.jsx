@@ -1,46 +1,50 @@
 // import { useState } from 'react'
-import './App.css'
-import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import HomePage from 'HomePage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import HomePage from './Pages/HomePage';
 import DayReportPage from './Pages/DayReport';
 import MonthReportPage from './Pages/MonthReport';
+
+
+import './App.css'
+import ErrorPage from './Pages/ErrorPage';
+import Root from './routes/root';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/day",
+        element: <DayReportPage />,
+        errorElement: <ErrorPage />
+
+      },
+
+      {
+        path: '/month',
+        element: < MonthReportPage />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: "/home",
+        errorElement: <ErrorPage />,
+
+        element: <HomePage />
+      },
+    ]
+  },
+
+])
+
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
+    <RouterProvider router={router} />
 
-
-    <Router>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Головна</Link>
-            </li>
-            <li>
-              <Link to="/day">Добовий звіт</Link>
-            </li>
-            <li>
-              <Link to="/month">Місячний звіт</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <main>
-        <Switch>
-          <Route path="day">
-            <DayReportPage />
-          </Route>
-          <Route path="month">
-            <MonthReportPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
-      </main>
-    </Router>
   )
 }
 
